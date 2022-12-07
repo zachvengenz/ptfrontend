@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
-import { API_URL } from "../Constants";
+import { CUSTOMER_URL } from "../Constants";
+import AddCustomer from "./AddCustomer";
+import EditCustomer from "./EditCustomer";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
@@ -10,7 +12,6 @@ import "ag-grid-community/styles/ag-theme-material.css";
 export default function Customerlist() {
   const [customers, setCustomers] = useState([]);
 
-  // TODO
   const [columndefs] = useState([
     {
       field: "firstname",
@@ -57,15 +58,15 @@ export default function Customerlist() {
   }, []);
 
   const getCustomers = () => {
-    fetch(API_URL)
+    fetch(CUSTOMER_URL)
       .then((response) => {
         if (response.ok) {
           return response.json();
         } else {
-          alert("Something went wrong");
+          alert("Failed to fetch");
         }
       })
-      .then((data) => setCustomers(data._embedded.customers)) // kato viel toi customers
+      .then((data) => setCustomers(data.content))
       .catch((err) => console.error(err));
   };
 
@@ -86,7 +87,7 @@ export default function Customerlist() {
   };
 
   const addCustomer = (customer) => {
-    fetch(API_URL, {
+    fetch(CUSTOMER_URL, {
       method: "POST",
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(customer),
@@ -119,7 +120,7 @@ export default function Customerlist() {
 
   return (
     <>
-      <AddCar addCar={addCustomer} />
+      <AddCustomer addCustomer={addCustomer} />
       <div
         className="ag-theme-material"
         style={{
@@ -132,7 +133,7 @@ export default function Customerlist() {
           rowData={customers}
           columnDefs={columndefs}
           pagination={true}
-          paginationPageSize={10}
+          paginationPageSize={20}
         />{" "}
       </div>
     </>
