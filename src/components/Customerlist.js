@@ -22,6 +22,7 @@ export default function Customerlist() {
       field: "lastname",
       sortable: true,
       filter: true,
+      cellStyle: { color: "black", background: "lightblue" },
     },
     {
       field: "streetaddress",
@@ -32,6 +33,7 @@ export default function Customerlist() {
       field: "postcode",
       sortable: true,
       filter: true,
+      cellStyle: { color: "black", background: "lightblue" },
     },
     {
       field: "city",
@@ -44,6 +46,7 @@ export default function Customerlist() {
       sortable: true,
       filter: true,
       width: 150,
+      cellStyle: { color: "black", background: "lightblue" },
     },
     {
       field: "phone",

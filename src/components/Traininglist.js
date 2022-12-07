@@ -22,6 +22,7 @@ export default function Traininglist() {
       field: "duration",
       sortable: true,
       filter: true,
+      cellStyle: { color: "black", background: "lightblue" },
     },
     {
       field: "activity",
@@ -32,6 +33,7 @@ export default function Traininglist() {
       field: "customer.firstname",
       sortable: true,
       filter: true,
+      cellStyle: { color: "black", background: "lightblue" },
     },
     {
       field: "customer.lastname",
