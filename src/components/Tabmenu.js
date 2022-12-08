@@ -1,3 +1,5 @@
+// code formatted with Prettier
+
 import React, { useState } from "react";
 import Customerlist from "./Customerlist";
 import Traininglist from "./Traininglist";
@@ -6,6 +8,8 @@ import {
   HomeOutlined,
   UserOutlined,
   ThunderboltOutlined,
+  CalendarOutlined,
+  LineChartOutlined,
 } from "@ant-design/icons";
 
 export default function Tabmenu() {
@@ -19,6 +23,8 @@ export default function Tabmenu() {
     { label: "Home", key: "one", icon: <HomeOutlined /> },
     { label: "Customers", key: "two", icon: <UserOutlined /> },
     { label: "Trainings", key: "three", icon: <ThunderboltOutlined /> },
+    { label: "Calendar", key: "four", icon: <CalendarOutlined /> },
+    { label: "Statistics", key: "five", icon: <LineChartOutlined /> },
   ];
 
   return (
@@ -31,8 +37,8 @@ export default function Tabmenu() {
       ></Menu>
       {value === "one" && (
         <div>
-          <h1>Welcome to the front page!</h1>
-          <h3>
+          <h1 style={{ fontSize: 36 }}>Welcome to the front page!</h1>
+          <h3 style={{ fontSize: 24 }}>
             What you see is an assignment done in school, which means that the
             mediocrity of this creation knows no bounds.<br></br>
             The assignment was to create a front-end UI for provided back-end
@@ -42,8 +48,7 @@ export default function Tabmenu() {
       )}
       {value === "two" && (
         <div>
-          {" "}
-          <Customerlist />{" "}
+          <Customerlist />
         </div>
       )}
       {value === "three" && (

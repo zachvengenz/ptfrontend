@@ -20,11 +20,24 @@ export default function AddCustomer(props) {
 
   const handleClose = () => {
     setOpen(false);
+    setCustomer({
+      firstname: "",
+      lastname: "",
+      streetaddress: "",
+      postcode: "",
+      city: "",
+      email: "",
+      phone: "",
+    });
+  };
+
+  const handleChange = (e) => {
+    setCustomer({ ...customer, [e.target.name]: e.target.value });
   };
 
   const handleSave = () => {
     props.addCustomer(customer);
-    setOpen(false);
+    handleClose();
   };
 
   return (
@@ -47,54 +60,34 @@ export default function AddCustomer(props) {
       >
         <p>First name</p>
         <Input
-          placeholder="First name"
+          name="firstname"
           value={customer.firstname}
-          onChange={(e) =>
-            setCustomer({ ...customer, firstname: e.target.value })
-          }
+          onChange={handleChange}
         />
         <p>Last name</p>
         <Input
-          placeholder="Last name"
+          name="lastname"
           value={customer.lastname}
-          onChange={(e) =>
-            setCustomer({ ...customer, lastname: e.target.value })
-          }
+          onChange={handleChange}
         />
         <p>Street address</p>
         <Input
-          placeholder="Street address"
+          name="streetaddress"
           value={customer.streetaddress}
-          onChange={(e) =>
-            setCustomer({ ...customer, streetaddress: e.target.value })
-          }
+          onChange={handleChange}
         />
         <p>Postal code</p>
         <Input
-          placeholder="Postal code"
+          name="postcode"
           value={customer.postcode}
-          onChange={(e) =>
-            setCustomer({ ...customer, postcode: e.target.value })
-          }
+          onChange={handleChange}
         />
         <p>City</p>
-        <Input
-          placeholder="City"
-          value={customer.city}
-          onChange={(e) => setCustomer({ ...customer, city: e.target.value })}
-        />
+        <Input name="city" value={customer.city} onChange={handleChange} />
         <p>Email</p>
-        <Input
-          placeholder="Email"
-          value={customer.email}
-          onChange={(e) => setCustomer({ ...customer, email: e.target.value })}
-        />
+        <Input name="email" value={customer.email} onChange={handleChange} />
         <p>Phone</p>
-        <Input
-          placeholder="Phone"
-          value={customer.phone}
-          onChange={(e) => setCustomer({ ...customer, phone: e.target.value })}
-        />
+        <Input name="phone" value={customer.phone} onChange={handleChange} />
       </Modal>
     </div>
   );

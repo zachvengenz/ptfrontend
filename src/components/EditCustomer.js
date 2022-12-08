@@ -1,10 +1,12 @@
+// code formatted with Prettier
+
+import React, { useState } from "react";
 import { Button, Input, Modal } from "antd";
-import * as React from "react";
 import { CloseOutlined, EditOutlined } from "@ant-design/icons";
 
 export default function EditCustomer(props) {
-  const [open, setOpen] = React.useState(false);
-  const [customer, setCustomer] = React.useState({
+  const [open, setOpen] = useState(false);
+  const [customer, setCustomer] = useState({
     firstname: "",
     lastname: "",
     streetaddress: "",
@@ -16,7 +18,6 @@ export default function EditCustomer(props) {
 
   const handleOpen = () => {
     setOpen(true);
-    console.log(props.data);
     setCustomer({
       firstname: props.data.firstname,
       lastname: props.data.lastname,
@@ -33,7 +34,7 @@ export default function EditCustomer(props) {
   };
 
   const handleSave = () => {
-    props.updateCustomer(customer, props.data.links[1].href); // TODO
+    props.updateCustomer(customer, props.data.links[1].href);
     setOpen(false);
   };
 

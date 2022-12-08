@@ -1,8 +1,19 @@
+// code formatted with Prettier
+
 import React, { useState } from "react";
-import { Button, Modal, Input } from "antd";
+import {
+  Button,
+  Modal,
+  Input,
+  Col,
+  InputNumber,
+  Row,
+  Slider,
+  DatePicker,
+  Space,
+} from "antd";
 import { CloseOutlined, ThunderboltOutlined } from "@ant-design/icons";
-import { DatePicker, Space } from "antd";
-import { Col, InputNumber, Row, Slider } from "antd";
+import dayjs from "dayjs";
 
 export default function AddTraining(props) {
   const [open, setOpen] = useState(false);
@@ -12,35 +23,50 @@ export default function AddTraining(props) {
     duration: 0,
     customer: "",
   });
-  const [durationValue, setDurationValue] = useState(1);
-
-  const onChange = (newValue) => {
-    setDurationValue(newValue);
-  };
+  const [duration, setDuration] = useState(1);
 
   const handleOpen = () => {
     setOpen(true);
+    setTraining({ ...training, customer: props.data.links[1].href });
   };
 
   const handleClose = () => {
     setOpen(false);
+    setTraining({
+      date: null,
+      activity: "",
+      duration: 0,
+      customer: "",
+    });
   };
 
   const handleSave = () => {
     props.addTraining(training);
-    setOpen(false);
+    handleClose();
+  };
+
+  const handleDuration = () => {
+    setTraining({ ...training, duration: duration });
+  };
+
+  const handleDate = (e) => {
+    setTraining({ ...training, date: dayjs(e).toISOString() });
   };
 
   return (
     <div>
       <Button
-        type="primary"
+        type="dashed"
+        style={{
+          fontWeight: "bolder",
+          background: "green",
+          color: "white",
+        }}
         shape="round"
         icon={<ThunderboltOutlined />}
-        size="large"
         onClick={handleOpen}
       >
-        Book a training session
+        Book
       </Button>
       <Modal
         title="New training session"
@@ -52,61 +78,45 @@ export default function AddTraining(props) {
         <p>Date</p>
         <Space direction="vertical" size={12}>
           <DatePicker
-            format="DD-MM-YYYY H:mm"
+            format="DD-MM-YYYY HH:mm"
             showTime
-            onOk={(e) => setTraining({ ...training, date: e.target.value })}
+            onChange={handleDate}
           />
         </Space>
-        {/* <Input
-          placeholder="Date"
-          value={training.date}
-          onChange={(e) => setTraining({ ...training, date: e.target.value })}
-        /> */}
         <p>Duration (min)</p>
         <Row>
           <Col span={12}>
             <Slider
               min={1}
-              max={90}
-              onChange={onChange}
-              value={typeof durationValue === "number" ? durationValue : 0}
+              max={180}
+              onChange={(e) => {
+                setDuration(e);
+                handleDuration(e);
+              }}
+              value={typeof duration === "number" ? duration : 0}
             />
           </Col>
           <Col span={4}>
             <InputNumber
               min={1}
-              max={90}
+              max={180}
               style={{
                 margin: "0 16px",
               }}
-              value={durationValue}
-              onChange={onChange}
+              value={duration}
+              onChange={(e) => {
+                setDuration(e);
+                handleDuration(e);
+              }}
             />
           </Col>
         </Row>
-        {/* <Input
-          placeholder="Duration (min)"
-          type="number"
-          value={training.duration}
-          onChange={(e) =>
-            setTraining({ ...training, duration: e.target.value })
-          }
-        /> */}
         <p>Activity</p>
         <Input
           placeholder="Activity"
           value={training.activity}
           onChange={(e) =>
             setTraining({ ...training, activity: e.target.value })
-          }
-        />
-        <p>Customer</p>
-        <Input
-          placeholder="Customer"
-          type="list"
-          value={training.customer}
-          onChange={(e) =>
-            setTraining({ ...training, customer: e.target.value })
           }
         />
       </Modal>

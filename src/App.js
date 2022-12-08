@@ -1,8 +1,10 @@
-import { Layout } from "antd";
-import { Typography } from "antd";
+// code formatted with Prettier
+
+import { Layout, Typography } from "antd";
 import { Content, Footer, Header } from "antd/es/layout/layout";
-import "./App.css";
 import Tabmenu from "./components/Tabmenu";
+import "./App.css";
+
 const { Title } = Typography;
 
 function App() {
@@ -11,14 +13,14 @@ function App() {
       <Layout>
         <Header style={{ background: "#1774ff" }}>
           <Title level={3} style={{ color: "white" }}>
-            Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
+            Customers & Trainings
           </Title>
         </Header>
         <Content style={{ background: "white" }}>
           <Tabmenu />
         </Content>
         <Footer style={{ color: "white", background: "#1774ff" }}>
-          Made by: github.com/zachvengenz
+          Author: github.com/zachvengenz
         </Footer>
       </Layout>
     </div>

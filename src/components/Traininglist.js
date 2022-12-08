@@ -1,24 +1,23 @@
+// code formatted with Prettier
+
 import React, { useState, useEffect } from "react";
 import { AgGridReact } from "ag-grid-react";
-import { TRAINING_URL } from "../Constants";
-import AddTraining from "./AddTraining";
-import EditTraining from "./EditTraining";
-
+import { TRAINING_URL, TRAININGS_URL } from "../Constants";
+import { format } from "date-fns";
+import { Button, Space } from "antd";
+import { DeleteOutlined } from "@ant-design/icons";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
-import { format } from "date-fns";
 
 // import dayjs from "dayjs";
 
-// code formatted with Prettier
-
-export default function Traininglist() {
+export default function Traininglist(props) {
   const [trainings, setTrainings] = useState([]);
   const formatDate = (params) => {
     return format(new Date(params.value), "dd.MM.yyyy HH:mm");
   };
 
-  // alternate formatter - would show empty as an invalid date
+  // alternate formatter - would show empty as an invalid date for some reason
   /*
   const formatDate = (params) => {
     return dayjs(params.value).format("D.M.YYYY H:mm");
@@ -54,14 +53,38 @@ export default function Traininglist() {
       sortable: true,
       filter: true,
     },
+    {
+      field: "customer.phone",
+      sortable: true,
+      filter: true,
+      cellStyle: { color: "white", background: "#1774ff" },
+    },
+    {
+      width: 150,
+      cellRenderer: (params) => (
+        <Space>
+          <Button
+            type="primary"
+            style={{ fontWeight: "bolder" }}
+            danger
+            shape="round"
+            icon={<DeleteOutlined />}
+            onClick={() => deleteTraining(params.data)}
+          >
+            {" "}
+            Delete{" "}
+          </Button>
+        </Space>
+      ),
+    },
   ]);
 
   useEffect(() => {
     getTrainings();
-  }, []);
+  }, [props]);
 
   const getTrainings = () => {
-    fetch(TRAINING_URL)
+    fetch(TRAININGS_URL)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -74,8 +97,8 @@ export default function Traininglist() {
   };
 
   const deleteTraining = (data) => {
-    if (window.confirm("Are you sure?")) {
-      fetch(data._links.car.href, {
+    if (window.confirm("Delete?")) {
+      fetch(TRAINING_URL + "/" + data.id, {
         method: "DELETE",
       })
         .then((response) => {
@@ -89,57 +112,22 @@ export default function Traininglist() {
     }
   };
 
-  const addTraining = (training) => {
-    fetch(TRAINING_URL, {
-      method: "POST",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(training),
-    })
-      .then((response) => {
-        if (response.ok) {
-          getTrainings();
-        } else {
-          alert("Something went wrong");
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-
-  const updateTraining = (training, url) => {
-    fetch(url, {
-      method: "PUT",
-      headers: { "Content-type": "application/json" },
-      body: JSON.stringify(training),
-    })
-      .then((response) => {
-        if (response.ok) {
-          getTrainings();
-        } else {
-          alert("Something went wrong");
-        }
-      })
-      .catch((err) => console.log(err));
-  };
-
   return (
-    <>
-      <AddTraining addTraining={addTraining} />
-      <div
-        className="ag-theme-material"
-        style={{
-          height: 650,
-          width: "95%",
-          margin: "auto",
-        }}
-      >
-        <AgGridReact
-          rowData={trainings}
-          columnDefs={columndefs}
-          pagination={true}
-          paginationPageSize={20}
-          animateRows={true}
-        />{" "}
-      </div>
-    </>
+    <div
+      className="ag-theme-material"
+      style={{
+        height: 650,
+        width: "95%",
+        margin: "auto",
+      }}
+    >
+      <AgGridReact
+        rowData={trainings}
+        columnDefs={columndefs}
+        pagination={true}
+        paginationPageSize={10}
+        animateRows={true}
+      />{" "}
+    </div>
   );
 }
