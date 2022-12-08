@@ -9,15 +9,15 @@ function App() {
   return (
     <div className="App">
       <Layout>
-        <Header style={{ background: "lightblue" }}>
-          <Title level={3} code={true} italic={true}>
+        <Header style={{ background: "#1774ff" }}>
+          <Title level={3} style={{ color: "white" }}>
             Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
           </Title>
         </Header>
         <Content style={{ background: "white" }}>
           <Tabmenu />
         </Content>
-        <Footer style={{ background: "lightblue" }}>
+        <Footer style={{ color: "white", background: "#1774ff" }}>
           Made by: github.com/zachvengenz
         </Footer>
       </Layout>

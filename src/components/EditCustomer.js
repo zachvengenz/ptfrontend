@@ -1,4 +1,6 @@
+import { Button, Input, Modal } from "antd";
 import * as React from "react";
+import { CloseOutlined, EditOutlined } from "@ant-design/icons";
 
 export default function EditCustomer(props) {
   const [open, setOpen] = React.useState(false);
@@ -12,8 +14,7 @@ export default function EditCustomer(props) {
     phone: "",
   });
 
-  // TODO - kato noi datan fetchaukset
-  const handleClickOpen = () => {
+  const handleOpen = () => {
     setOpen(true);
     console.log(props.data);
     setCustomer({
@@ -32,9 +33,79 @@ export default function EditCustomer(props) {
   };
 
   const handleSave = () => {
-    props.updateCusomer(customer, props.data._links.car.href); // TODO
+    props.updateCustomer(customer, props.data.links[1].href); // TODO
     setOpen(false);
   };
 
-  return <div></div>;
+  return (
+    <div>
+      <Button
+        type="primary"
+        style={{ fontWeight: "bolder" }}
+        shape="round"
+        icon={<EditOutlined />}
+        onClick={handleOpen}
+      >
+        Edit
+      </Button>
+      <Modal
+        title="New customer"
+        open={open}
+        onOk={handleSave}
+        onCancel={handleClose}
+        closeIcon={<CloseOutlined />}
+      >
+        <p>First name</p>
+        <Input
+          placeholder="First name"
+          value={customer.firstname}
+          onChange={(e) =>
+            setCustomer({ ...customer, firstname: e.target.value })
+          }
+        />
+        <p>Last name</p>
+        <Input
+          placeholder="Last name"
+          value={customer.lastname}
+          onChange={(e) =>
+            setCustomer({ ...customer, lastname: e.target.value })
+          }
+        />
+        <p>Street address</p>
+        <Input
+          placeholder="Street address"
+          value={customer.streetaddress}
+          onChange={(e) =>
+            setCustomer({ ...customer, streetaddress: e.target.value })
+          }
+        />
+        <p>Postal code</p>
+        <Input
+          placeholder="Postal code"
+          value={customer.postcode}
+          onChange={(e) =>
+            setCustomer({ ...customer, postcode: e.target.value })
+          }
+        />
+        <p>City</p>
+        <Input
+          placeholder="City"
+          value={customer.city}
+          onChange={(e) => setCustomer({ ...customer, city: e.target.value })}
+        />
+        <p>Email</p>
+        <Input
+          placeholder="Email"
+          value={customer.email}
+          onChange={(e) => setCustomer({ ...customer, email: e.target.value })}
+        />
+        <p>Phone</p>
+        <Input
+          placeholder="Phone"
+          value={customer.phone}
+          onChange={(e) => setCustomer({ ...customer, phone: e.target.value })}
+        />
+      </Modal>
+    </div>
+  );
 }

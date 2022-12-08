@@ -6,23 +6,37 @@ import EditTraining from "./EditTraining";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import { format } from "date-fns";
+
+// import dayjs from "dayjs";
 
 // code formatted with Prettier
 
 export default function Traininglist() {
   const [trainings, setTrainings] = useState([]);
+  const formatDate = (params) => {
+    return format(new Date(params.value), "dd.MM.yyyy HH:mm");
+  };
+
+  // alternate formatter - would show empty as an invalid date
+  /*
+  const formatDate = (params) => {
+    return dayjs(params.value).format("D.M.YYYY H:mm");
+  };
+  */
 
   const [columndefs] = useState([
     {
       field: "date",
       sortable: true,
       filter: true,
+      valueFormatter: formatDate,
     },
     {
       field: "duration",
       sortable: true,
       filter: true,
-      cellStyle: { color: "black", background: "lightblue" },
+      cellStyle: { color: "white", background: "#1774ff" },
     },
     {
       field: "activity",
@@ -33,7 +47,7 @@ export default function Traininglist() {
       field: "customer.firstname",
       sortable: true,
       filter: true,
-      cellStyle: { color: "black", background: "lightblue" },
+      cellStyle: { color: "white", background: "#1774ff" },
     },
     {
       field: "customer.lastname",
@@ -45,10 +59,6 @@ export default function Traininglist() {
   useEffect(() => {
     getTrainings();
   }, []);
-
-  const formatDate = (d) => {
-    setTrainings({ ...trainings, date: d.format("ll") });
-  };
 
   const getTrainings = () => {
     fetch(TRAINING_URL)
@@ -118,7 +128,7 @@ export default function Traininglist() {
         className="ag-theme-material"
         style={{
           height: 650,
-          width: "90%",
+          width: "95%",
           margin: "auto",
         }}
       >
@@ -127,6 +137,7 @@ export default function Traininglist() {
           columnDefs={columndefs}
           pagination={true}
           paginationPageSize={20}
+          animateRows={true}
         />{" "}
       </div>
     </>

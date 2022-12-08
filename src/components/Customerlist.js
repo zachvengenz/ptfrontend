@@ -3,9 +3,11 @@ import { AgGridReact } from "ag-grid-react";
 import { CUSTOMER_URL } from "../Constants";
 import AddCustomer from "./AddCustomer";
 import EditCustomer from "./EditCustomer";
+import { DeleteOutlined } from "@ant-design/icons";
 
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-material.css";
+import { Button, Space } from "antd";
 
 // code formatted with Prettier
 
@@ -22,7 +24,7 @@ export default function Customerlist() {
       field: "lastname",
       sortable: true,
       filter: true,
-      cellStyle: { color: "black", background: "lightblue" },
+      cellStyle: { color: "white", background: "#1774ff" },
     },
     {
       field: "streetaddress",
@@ -33,26 +35,47 @@ export default function Customerlist() {
       field: "postcode",
       sortable: true,
       filter: true,
-      cellStyle: { color: "black", background: "lightblue" },
+      cellStyle: { color: "white", background: "#1774ff" },
     },
     {
       field: "city",
       sortable: true,
       filter: true,
-      width: 120,
     },
     {
       field: "email",
       sortable: true,
       filter: true,
-      width: 150,
-      cellStyle: { color: "black", background: "lightblue" },
+      cellStyle: { color: "white", background: "#1774ff" },
     },
     {
       field: "phone",
       sortable: true,
       filter: true,
+    },
+    {
       width: 150,
+      cellRenderer: (params) => (
+        <EditCustomer data={params.data} updateCustomer={updateCustomer} />
+      ),
+    },
+    {
+      width: 150,
+      cellRenderer: (params) => (
+        <Space>
+          <Button
+            type="primary"
+            style={{ fontWeight: "bolder" }}
+            danger
+            shape="round"
+            icon={<DeleteOutlined />}
+            onClick={() => deleteCustomer(params.data)}
+          >
+            {" "}
+            Delete{" "}
+          </Button>
+        </Space>
+      ),
     },
   ]);
 
@@ -75,7 +98,7 @@ export default function Customerlist() {
 
   const deleteCustomer = (data) => {
     if (window.confirm("Are you sure?")) {
-      fetch(data._links.car.href, {
+      fetch(data.links[1].href, {
         method: "DELETE",
       })
         .then((response) => {
@@ -128,7 +151,7 @@ export default function Customerlist() {
         className="ag-theme-material"
         style={{
           height: 650,
-          width: "90%",
+          width: "95%",
           margin: "auto",
         }}
       >
@@ -137,6 +160,7 @@ export default function Customerlist() {
           columnDefs={columndefs}
           pagination={true}
           paginationPageSize={20}
+          animateRows={true}
         />{" "}
       </div>
     </>
