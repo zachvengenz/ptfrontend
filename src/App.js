@@ -12,9 +12,7 @@ function App() {
     <div className="App">
       <Layout>
         <Header style={{ background: "#1774ff" }}>
-          <Title level={3} style={{ color: "white" }}>
-            Customers & Trainings
-          </Title>
+          <Title style={{ color: "white" }}>Customers & Trainings</Title>
         </Header>
         <Content style={{ background: "white" }}>
           <Tabmenu />

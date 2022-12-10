@@ -3,6 +3,8 @@
 import React, { useState } from "react";
 import Customerlist from "./Customerlist";
 import Traininglist from "./Traininglist";
+import Calendar from "./Calendar";
+import Stats from "./Stats";
 import { Menu } from "antd";
 import {
   HomeOutlined,
@@ -37,8 +39,10 @@ export default function Tabmenu() {
       ></Menu>
       {value === "one" && (
         <div>
-          <h1 style={{ fontSize: 36 }}>Welcome to the front page!</h1>
-          <h3 style={{ fontSize: 24 }}>
+          <h1 style={{ fontSize: 36, marginTop: 10 }}>
+            Welcome to the front page!
+          </h1>
+          <h3 style={{ fontSize: 24, marginBottom: 20 }}>
             What you see is an assignment done in school, which means that the
             mediocrity of this creation knows no bounds.<br></br>
             The assignment was to create a front-end UI for provided back-end
@@ -54,6 +58,16 @@ export default function Tabmenu() {
       {value === "three" && (
         <div>
           <Traininglist />
+        </div>
+      )}
+      {value === "four" && (
+        <div>
+          <Calendar />
+        </div>
+      )}
+      {value === "five" && (
+        <div>
+          <Stats />
         </div>
       )}
     </div>
